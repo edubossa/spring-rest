@@ -1,5 +1,7 @@
 package br.com.ntk.service;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ public class CepService {
 	 * @return Object CEP
 	 */
 	public Response getCep(String cep) {
-		
+		//obterIP();
 		Cep c = null;
 		Response response = new Response();
 		
@@ -42,7 +44,7 @@ public class CepService {
 			response.setCep(c);
 			
 			if(c == null) {
-				RetornoHelper.populaRetornoUsuario(response, TipoRetornoEnum.ERRO_02);
+				RetornoHelper.populaRetornoUsuario(response, TipoRetornoEnum.ERRO_01);
 				response.setTotal(0);
 			} else {				
 				RetornoHelper.populaRetornoUsuario(response, TipoRetornoEnum.SUCESSO);
@@ -76,7 +78,7 @@ public class CepService {
 			response.setTotal(ceps.size());
 			
 			if (ceps.size() == 0) {
-				RetornoHelper.populaRetornoUsuario(response, TipoRetornoEnum.ERRO_03);
+				RetornoHelper.populaRetornoUsuario(response, TipoRetornoEnum.ERRO_02);
 			} else {				
 				RetornoHelper.populaRetornoUsuario(response, TipoRetornoEnum.SUCESSO);
 			}
@@ -88,6 +90,28 @@ public class CepService {
 		}
 		
 		return response;
+	}
+	
+	
+	public void obterIP() {
+		try {
+			InetAddress address = InetAddress.getLocalHost();
+			
+			System.out.println(address.getHostAddress());
+			System.out.println(address.getHostName());
+			
+			InetAddress iad2 = InetAddress.getByName("www.ntk.com.br");
+			System.out.println(iad2.getHostAddress());
+			System.out.println(iad2.getHostName()); 
+			
+			InetAddress[] inetAddresses = InetAddress.getAllByName("www.ntk.com.br");
+			System.out.println(inetAddresses.length);
+			
+			
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} 
+		
 	}
 	
 	
